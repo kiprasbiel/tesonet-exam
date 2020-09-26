@@ -1,6 +1,6 @@
 <?php
 class Person{
-    private $bornDateObj;
+    protected $bornDateObj;
 
     public function __construct($bornDate){
         $this->bornDateObj = DateTime::createFromFormat('Y-m-d', $bornDate);
@@ -10,7 +10,7 @@ class Person{
         return $this->bornDateObj;
     }
 
-    private function HowOld(){
+    public function HowOld(){
         $today = new DateTime(date('Y-m-d'));
         $howOldObj =  $this->getBday()->diff($today);
         return [
@@ -19,6 +19,12 @@ class Person{
             'days' => $howOldObj->d
         ];
     }
+
+    public function getOld(){
+        $howOld = $this->HowOld();
+        return $howOld['years'] . ' years '. $howOld['months'] .' months ' . $howOld['days'] . ' days ';
+    }
 }
 
 $person = new Person(readline('Enter age in YYYY-MM-DD format: '));
+echo $person->getOld();
